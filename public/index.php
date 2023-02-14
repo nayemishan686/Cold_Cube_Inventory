@@ -46,17 +46,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
-// $install1 = is_dir('public/install');
-// $install2 = is_dir('install');
-
-// if ($install1 == true) {
-//     header("location:public/install/index.php");
-// }
-// elseif($install2 == true)
-// {
-//     header("location:install/index.php");
-// }
-// else {
 $kernel = $app->make(Kernel::class);
 
 $response = tap($kernel->handle(
@@ -64,4 +53,4 @@ $response = tap($kernel->handle(
 ))->send();
 
 $kernel->terminate($request, $response);
-// }
+
