@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3.0",
+        "php": "^7.3 || ^8.0",
         "doctrine/dbal": "^2.11",
         "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -24,7 +24,7 @@
         "srmklive/paypal": "^3.0",
         "stripe/stripe-php": "^7.57",
         "twilio/sdk": "^6.10",
-        "laravel/ui": "3.0"
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
