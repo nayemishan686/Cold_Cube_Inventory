@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Validation\Rule;
+use App\Roles;
+use App\CustomerGroup;
+use App\Biller;
+use App\Warehouse;
 
 class RegisterController extends Controller
 {
@@ -39,6 +43,15 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $lims_role_list = Roles::where('is_active', true)->get();
+        $lims_customer_group_list = CustomerGroup::where('is_active', true)->get();
+        $lims_biller_list = Biller::where('is_active', true)->get();
+        $lims_warehouse_list = Warehouse::where('is_active', true)->get();
+        return view('backend.auth.register', compact('lims_role_list', 'lims_customer_group_list', 'lims_biller_list', 'lims_warehouse_list'));
     }
 
     /**

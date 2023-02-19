@@ -24,7 +24,13 @@
       <div class="container">
         <div class="form-outer text-center d-flex align-items-center">
           <div class="form-inner">
-            <div class="logo"><span>{{$general_setting->site_title}}</span></div>
+            <div class="logo">
+              @if($general_setting->site_logo)
+                <img src="{{url('logo', $general_setting->site_logo)}}" width="110">
+                @else
+                <span>{{$general_setting->site_title}}</span>
+                @endif
+            </div>
             <form method="POST" action="{{ route('register') }}">
                 @csrf
               <div class="form-group-material">

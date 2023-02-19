@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
   
 
@@ -55,6 +56,26 @@ class LoginController extends Controller
      * @return void
 
      */
+
+    // Show Login form
+    public function showLoginForm(){
+        if(isset($_COOKIE['language']))
+            \App::setLocale($_COOKIE['language']);
+        else
+            \App::setLocale('en');
+        //getting theme
+        if(isset($_COOKIE['theme']))
+            $theme = $_COOKIE['theme'];
+        else
+            $theme = 'light';
+        //get general setting value 
+        $general_setting = \App\GeneralSetting::latest()->first();
+        if(!$general_setting) {
+            \DB::unprepared(file_get_contents('public/tenant_necessary.sql'));
+            $general_setting = \App\GeneralSetting::latest()->first();
+        }
+        return view('backend.auth.login', compact('theme', 'general_setting'));
+    }
 
     public function login(Request $request)
     { 
