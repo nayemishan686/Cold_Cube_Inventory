@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +11,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('migrate', 'App\Http\Controllers\LandingPageController@migrateDB');
+// Route::get('migrate', 'App\Http\Controllers\LandingPageController@migrateDB');
 Route::get('clear',function() {
     Artisan::call('optimize:clear');
     dd('success');
@@ -324,5 +325,9 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('my-transactions/{year}/{month}', 'HomeController@myTransaction');
+
+
+	// Area Work
+	Route::resource('area', 'AreaController');
 });
 

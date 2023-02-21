@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($lims_warehouse_all as $key=>$warehouse)
+                @foreach($lims_area_all as $key=>$warehouse)
                 <?php
                     $number_of_product = App\Product_Warehouse::
                     join('products', 'product_warehouse.product_id', '=', 'products.id')
@@ -83,7 +83,7 @@
 <div id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog">
     <div class="modal-content">
-    	{!! Form::open(['route' => 'area.store', 'method' => 'post']) !!}
+    	{!! Form::open(['route' => 'warehouse.store', 'method' => 'post']) !!}
       <div class="modal-header">
         <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Add Warehouse')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
