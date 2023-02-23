@@ -109,6 +109,21 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lims_area_data = Area::find($id);
+        $lims_area_data->is_active = false;
+        $lims_area_data->save();
+        return redirect('area')->with('not_permitted', 'Data deleted successfully');
+    }
+
+    // For deleting selected item
+    public function deleteBySelection(Request $request)
+    {
+        $area_id = $request['areaIdArray'];
+        foreach ($area_id as $id) {
+            $lims_area_data = Area::find($id);
+            $lims_area_data->is_active = false;
+            $lims_area_data->save();
+        }
+        return 'Area deleted successfully!';
     }
 }

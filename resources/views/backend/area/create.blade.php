@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($lims_area_all as $key=>$warehouse)
+                @foreach($lims_area_all as $key=>$area)
                 <?php
                     // $number_of_product = App\Product_Warehouse::
                     // join('products', 'product_warehouse.product_id', '=', 'products.id')
@@ -43,11 +43,11 @@
                     //           ['products.is_active', true]
                     // ])->sum('product_warehouse.qty');
                 ?>
-                <tr data-id="{{$warehouse->id}}">
+                <tr data-id="{{$area->id}}">
                     <td>{{$key}}</td>
-                    <td>{{ $warehouse->name }}</td>
-                    <td>{{ $warehouse->phone}}</td>
-                    <td>{{ $warehouse->address}}</td>
+                    <td>{{ $area->name }}</td>
+                    <td>{{ $area->phone}}</td>
+                    <td>{{ $area->address}}</td>
                     <td>0</td>
                     <td>0</td>
                     <td>
@@ -58,11 +58,11 @@
                             </button>
                             <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
                                 <li>
-                                	<button type="button" data-id="{{$warehouse->id}}" class="open-EditAreaDialog btn btn-link" data-toggle="modal" data-target="#editModal"><i class="dripicons-document-edit"></i> {{trans('file.edit')}}
+                                	<button type="button" data-id="{{$area->id}}" class="open-EditAreaDialog btn btn-link" data-toggle="modal" data-target="#editModal"><i class="dripicons-document-edit"></i> {{trans('file.edit')}}
                                 </button>
                                 </li>
                                 <li class="divider"></li>
-                                {{ Form::open(['route' => ['warehouse.destroy', $warehouse->id], 'method' => 'DELETE'] ) }}
+                                {{ Form::open(['route' => ['area.destroy', $area->id], 'method' => 'DELETE'] ) }}
                                 <li>
                                     <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> {{trans('file.delete')}}</button>
                                 </li>
@@ -113,7 +113,7 @@
     <div class="modal-content">
     	{!! Form::open(['route' => ['area.update',1], 'method' => 'put']) !!}
       <div class="modal-header">
-        <h5 id="exampleModalLabel" class="modal-title"> {{trans('file.Update Warehouse')}}</h5>
+        <h5 id="exampleModalLabel" class="modal-title"> {{trans('file.Update Area')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
       </div>
       <div class="modal-body">
@@ -292,9 +292,9 @@
                         if(area_id.length && confirm("Are you sure want to delete?")) {
                             $.ajax({
                                 type:'POST',
-                                url:'warehouse/deletebyselection',
+                                url:'area/deletebyselection',
                                 data:{
-                                    warehouseIdArray: area_id
+                                    areaIdArray: area_id
                                 },
                                 success:function(data){
                                     alert(data);
@@ -303,7 +303,7 @@
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
                         }
                         else if(!area_id.length)
-                            alert('No warehouse is selected!');
+                            alert('No area is selected!');
                     }
                     else
                         alert('This feature is disable for demo!');

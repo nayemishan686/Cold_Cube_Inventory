@@ -329,5 +329,6 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 
 	// Area Work
 	Route::resource('area', 'AreaController');
+	Route::post('area/deletebyselection', 'AreaController@deleteBySelection');
 });
 
