@@ -33,13 +33,13 @@
                 <?php
                     // $number_of_product = App\Product_Warehouse::
                     // join('products', 'product_warehouse.product_id', '=', 'products.id')
-                    // ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
+                    // ->where([ ['product_warehouse.area_id', $warehouse->id],
                     //           ['products.is_active', true]
                     // ])->count();
 
                     // $stock_qty = App\Product_Warehouse::
                     // join('products', 'product_warehouse.product_id', '=', 'products.id')
-                    // ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
+                    // ->where([ ['product_warehouse.area_id', $warehouse->id],
                     //           ['products.is_active', true]
                     // ])->sum('product_warehouse.qty');
                 ?>
@@ -58,7 +58,7 @@
                             </button>
                             <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
                                 <li>
-                                	<button type="button" data-id="{{$warehouse->id}}" class="open-EditWarehouseDialog btn btn-link" data-toggle="modal" data-target="#editModal"><i class="dripicons-document-edit"></i> {{trans('file.edit')}}
+                                	<button type="button" data-id="{{$warehouse->id}}" class="open-EditAreaDialog btn btn-link" data-toggle="modal" data-target="#editModal"><i class="dripicons-document-edit"></i> {{trans('file.edit')}}
                                 </button>
                                 </li>
                                 <li class="divider"></li>
@@ -119,17 +119,13 @@
       <div class="modal-body">
         <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
           <div class="form-group">
-          	<input type="hidden" name="warehouse_id">
+          	<input type="hidden" name="area_id">
             <label>{{trans('file.name')}} *</label>
-            <input type="text" placeholder="Type WareHouse Name..." name="name" required="required" class="form-control">
+            <input type="text" placeholder="Type Area Name..." name="name" required="required" class="form-control">
           </div>
           <div class="form-group">
             <label>{{trans('file.Phone Number')}} *</label>
             <input type="text" name="phone" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>{{trans('file.Email')}}</label>
-            <input type="email" name="email" placeholder="example@example.com" class="form-control">
           </div>
           <div class="form-group">
             <label>{{trans('file.Address')}} *</label>
@@ -186,7 +182,7 @@
     $("ul#setting").addClass("show");
     $("ul#setting #area-menu").addClass("active");
 
-    var warehouse_id = [];
+    var area_id = [];
     var user_verified = <?php echo json_encode(env('USER_VERIFIED')) ?>;
 
     $.ajaxSetup({
@@ -204,17 +200,16 @@
 
 	$(document).ready(function() {
 
-	    $(document).on('click', '.open-EditWarehouseDialog', function() {
-	        var url = "warehouse/"
+	    $(document).on('click', '.open-EditAreaDialog', function() {
+	        var url = "area/"
 	        var id = $(this).data('id').toString();
 	        url = url.concat(id).concat("/edit");
 
 	        $.get(url, function(data) {
 	            $("#editModal input[name='name']").val(data['name']);
 	            $("#editModal input[name='phone']").val(data['phone']);
-	            $("#editModal input[name='email']").val(data['email']);
 	            $("#editModal textarea[name='address']").val(data['address']);
-	            $("#editModal input[name='warehouse_id']").val(data['id']);
+	            $("#editModal input[name='area_id']").val(data['id']);
 
 	        });
 	    });
@@ -288,18 +283,18 @@
                 className: 'buttons-delete',
                 action: function ( e, dt, node, config ) {
                     if(user_verified == '1') {
-                        warehouse_id.length = 0;
+                        area_id.length = 0;
                         $(':checkbox:checked').each(function(i){
                             if(i){
-                                warehouse_id[i-1] = $(this).closest('tr').data('id');
+                                area_id[i-1] = $(this).closest('tr').data('id');
                             }
                         });
-                        if(warehouse_id.length && confirm("Are you sure want to delete?")) {
+                        if(area_id.length && confirm("Are you sure want to delete?")) {
                             $.ajax({
                                 type:'POST',
                                 url:'warehouse/deletebyselection',
                                 data:{
-                                    warehouseIdArray: warehouse_id
+                                    warehouseIdArray: area_id
                                 },
                                 success:function(data){
                                     alert(data);
@@ -307,7 +302,7 @@
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
                         }
-                        else if(!warehouse_id.length)
+                        else if(!area_id.length)
                             alert('No warehouse is selected!');
                     }
                     else

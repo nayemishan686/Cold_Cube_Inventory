@@ -74,7 +74,8 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lims_warehouse_data = Area::findOrFail($id);
+        return $lims_warehouse_data;
     }
 
     /**
@@ -86,7 +87,18 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => [
+                'max:255',
+                    Rule::unique('areas')->ignore($request->area_id)->where(function ($query) {
+                    return $query->where('is_active', 1);
+                }),
+            ],
+        ]);
+        $input = $request->all();
+        $lims_area_data = Area::find($input['area_id']);
+        $lims_area_data->update($input);
+        return redirect('area')->with('message', 'Data updated successfully');
     }
 
     /**
