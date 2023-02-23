@@ -519,5 +519,7 @@ return [
 	"Type date or sale reference..." => "",
 	"Type date or purchase reference..." => "",
 	"Tax Number" => "",
+	"Area List" => "",
+	"Add Area" => "",
 ];
 ?>

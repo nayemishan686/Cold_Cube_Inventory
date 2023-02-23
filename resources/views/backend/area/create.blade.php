@@ -13,46 +13,43 @@
 
 <section>
     <div class="container-fluid">
-        <a href="#" data-toggle="modal" data-target="#createModal" class="btn btn-info"><i class="dripicons-plus"></i> {{trans('file.Add Warehouse')}}</a>
-        <a href="#" data-toggle="modal" data-target="#importWarehouse" class="btn btn-primary"><i class="dripicons-copy"></i> {{trans('file.Import Warehouse')}}</a>
+        <a href="#" data-toggle="modal" data-target="#createModal" class="btn btn-info"><i class="dripicons-plus"></i> {{trans('file.Add Area')}}</a>
     </div>
     <div class="table-responsive">
-        <table id="warehouse-table" class="table">
+        <table id="area-table" class="table">
             <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>{{trans('file.Warehouse')}}</th>
+                    <th>{{trans('file.Area')}}</th>
                     <th>{{trans('file.Phone Number')}}</th>
-                    <th>{{trans('file.Email')}}</th>
                     <th>{{trans('file.Address')}}</th>
-                    <th>{{trans('file.Number of Product')}}</th>
-                    <th>{{trans('file.Stock Quantity')}}</th>
+                    <th>{{trans('file.Number of Dealer')}}</th>
+                    <th>{{trans('file.Number of Customer')}}</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($lims_area_all as $key=>$warehouse)
                 <?php
-                    $number_of_product = App\Product_Warehouse::
-                    join('products', 'product_warehouse.product_id', '=', 'products.id')
-                    ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
-                              ['products.is_active', true]
-                    ])->count();
+                    // $number_of_product = App\Product_Warehouse::
+                    // join('products', 'product_warehouse.product_id', '=', 'products.id')
+                    // ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
+                    //           ['products.is_active', true]
+                    // ])->count();
 
-                    $stock_qty = App\Product_Warehouse::
-                    join('products', 'product_warehouse.product_id', '=', 'products.id')
-                    ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
-                              ['products.is_active', true]
-                    ])->sum('product_warehouse.qty');
+                    // $stock_qty = App\Product_Warehouse::
+                    // join('products', 'product_warehouse.product_id', '=', 'products.id')
+                    // ->where([ ['product_warehouse.warehouse_id', $warehouse->id],
+                    //           ['products.is_active', true]
+                    // ])->sum('product_warehouse.qty');
                 ?>
                 <tr data-id="{{$warehouse->id}}">
                     <td>{{$key}}</td>
                     <td>{{ $warehouse->name }}</td>
                     <td>{{ $warehouse->phone}}</td>
-                    <td>{{ $warehouse->email}}</td>
                     <td>{{ $warehouse->address}}</td>
-                    <td>{{$number_of_product}}</td>
-                    <td>{{$stock_qty}}</td>
+                    <td>0</td>
+                    <td>0</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{trans('file.action')}}
@@ -83,24 +80,20 @@
 <div id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog">
     <div class="modal-content">
-    	{!! Form::open(['route' => 'warehouse.store', 'method' => 'post']) !!}
+    	{!! Form::open(['route' => 'area.store', 'method' => 'post']) !!}
       <div class="modal-header">
-        <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Add Warehouse')}}</h5>
+        <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Add Area')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
       </div>
       <div class="modal-body">
         <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
           <div class="form-group">
             <label>{{trans('file.name')}} *</label>
-            <input type="text" placeholder="Type WareHouse Name..." name="name" required="required" class="form-control">
+            <input type="text" placeholder="Type Area Name..." name="name" required="required" class="form-control">
           </div>
           <div class="form-group">
-            <label>{{trans('file.Phone Number')}} *</label>
-            <input type="text" name="phone" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>{{trans('file.Email')}}</label>
-            <input type="email" name="email" placeholder="example@example.com" class="form-control">
+            <label>{{trans('file.Phone Number')}}</label>
+            <input type="text" name="phone" class="form-control">
           </div>
           <div class="form-group">
             <label>{{trans('file.Address')}} *</label>
@@ -118,7 +111,7 @@
 <div id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog">
     <div class="modal-content">
-    	{!! Form::open(['route' => ['warehouse.update',1], 'method' => 'put']) !!}
+    	{!! Form::open(['route' => ['area.update',1], 'method' => 'put']) !!}
       <div class="modal-header">
         <h5 id="exampleModalLabel" class="modal-title"> {{trans('file.Update Warehouse')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
@@ -191,7 +184,7 @@
 
     $("ul#setting").siblings('a').attr('aria-expanded','true');
     $("ul#setting").addClass("show");
-    $("ul#setting #warehouse-menu").addClass("active");
+    $("ul#setting #area-menu").addClass("active");
 
     var warehouse_id = [];
     var user_verified = <?php echo json_encode(env('USER_VERIFIED')) ?>;
@@ -227,7 +220,7 @@
 	    });
   });
 
-  $('#warehouse-table').DataTable( {
+  $('#area-table').DataTable( {
         "order": [],
         'language': {
             'lengthMenu': '_MENU_ {{trans("file.records per page")}}',
@@ -241,7 +234,7 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 5, 6, 7]
+                'targets': 0,
             },
             {
                 'render': function(data, type, row, meta){

@@ -532,6 +532,19 @@
             <li><a href="#people" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user"></i><span>{{trans('file.People')}}</span></a>
             <ul id="people" class="collapse list-unstyled ">
 
+                {{-- WareHouse Work --}}
+                @if($user_index_permission_active)
+                <li id="Area-list-menu"><a href="{{route('area.index')}}">{{trans('file.Area List')}}</a></li>
+                <?php
+                    $user_add_permission_active = DB::table('permissions')
+                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                        ->where([
+                            ['permissions.name', 'users-add'],
+                            ['role_id', $role->id] 
+                        ])->first();
+                ?>
+                @endif
+
                 @if($user_index_permission_active)
                 <li id="user-list-menu"><a href="{{route('user.index')}}">{{trans('file.User List')}}</a></li>
                 <?php
@@ -1092,9 +1105,9 @@
                         ['role_id', $role->id]
                 ])->first();
             ?>
-            @if($sale_add_permission_active)
+            {{-- @if($sale_add_permission_active)
             <li class="nav-item"><a class="dropdown-item btn-pos btn-sm" href="{{route('sale.pos')}}"><i class="dripicons-shopping-bag"></i><span> POS</span></a></li>
-            @endif
+            @endif --}}
             <li class="nav-item"><a id="switch-theme" data-toggle="tooltip" title="{{trans('file.Switch Theme')}}"><i class="dripicons-brightness-max"></i></a></li>
             <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip" title="{{trans('file.Full Screen')}}"><i class="dripicons-expand"></i></a></li>
             @if(\Auth::user()->role_id <= 2)

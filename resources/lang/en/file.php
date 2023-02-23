@@ -683,5 +683,13 @@ return [
 	"Digits after deciaml point" => "Digits after deciaml point",
 	"Subscription Ends at" => "Subscription Ends at",
 	"Customer Group Report" => "Customer Group Report",
+	// Added By Nayem
+	"SL" => "SL",
+	"Area" => "Area",
+	"Area List" => "Area List",
+	"Add Area" => "Add Area",
+	"Number of Dealer" => "Number of Dealer",
+	"Number of Customer" => "Number of Customer",
+	"Update Area" => "Update Area",
 ];
 ?>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Area;
+use Illuminate\Validation\Rule;
+use Keygen;
+
 class AreaController extends Controller
 {
     /**
@@ -38,7 +41,18 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => [
+                'max:255',
+                    Rule::unique('areas')->where(function ($query) {
+                    return $query->where('is_active', 1);
+                }),
+            ],
+        ]);
+        $input = $request->all();
+        $input['is_active'] = true;
+        Area::create($input);
+        return redirect('area')->with('message', 'Area inserted successfully');
     }
 
     /**
