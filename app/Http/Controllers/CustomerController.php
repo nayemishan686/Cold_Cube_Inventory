@@ -29,6 +29,9 @@ class CustomerController extends Controller
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('customers-index')){
             $permissions = Role::findByName($role->name)->permissions;
+            // echo "<pre>";
+            // print_r($permissions);
+            // exit();
             foreach ($permissions as $permission)
                 $all_permission[] = $permission->name;
             if(empty($all_permission))
