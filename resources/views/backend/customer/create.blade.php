@@ -14,18 +14,18 @@
                         <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
                         {!! Form::open(['route' => 'customer.store', 'method' => 'post', 'files' => true]) !!}
                         <div class="row">
-                            <div class="col-md-4 mt-4">
+                            {{-- <div class="col-md-4 mt-4">
                                 <div class="form-group">
                                     <input type="checkbox" name="both" value="1" />&nbsp;
                                     <label>{{trans('file.Both Customer and Supplier')}}</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>{{trans('file.Customer Group')}} *</strong> </label>
-                                    <select required class="form-control selectpicker" id="customer-group-id" name="customer_group_id">
-                                        @foreach($lims_customer_group_all as $customer_group)
-                                            <option value="{{$customer_group->id}}">{{$customer_group->name}}</option>
+                                    <label>{{trans('file.Select Area')}} *</strong> </label>
+                                    <select required class="form-control selectpicker" id="area-id" name="area_id">
+                                        @foreach($lims_area_all as $area)
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -105,12 +105,12 @@
                                     <input type="text" name="country" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-4">
+                            {{-- <div class="col-md-4 mt-4">
                                 <div class="form-group">
                                     <input type="checkbox" name="user" value="1" />&nbsp;
                                     <label>{{trans('file.Add User')}}</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-4 user-input">
                                 <div class="form-group">
                                     <label>{{trans('file.UserName')}} *</label>

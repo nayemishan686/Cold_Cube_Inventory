@@ -691,5 +691,6 @@ return [
 	"Number of Dealer" => "Number of Dealer",
 	"Number of Customer" => "Number of Customer",
 	"Update Area" => "Update Area",
+	"Select Area" => "Select Area",
 ];
 ?>

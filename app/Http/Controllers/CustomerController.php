@@ -12,6 +12,7 @@ use App\Sale;
 use App\Payment;
 use App\CashRegister;
 use App\Account;
+use App\Area;
 use Auth;
 use DB;
 use Illuminate\Validation\Rule;
@@ -93,8 +94,12 @@ class CustomerController extends Controller
     {
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('customers-add')){
-            $lims_customer_group_all = CustomerGroup::where('is_active',true)->get();
-            return view('backend.customer.create', compact('lims_customer_group_all'));
+            // $lims_customer_group_all = CustomerGroup::where('is_active',true)->get();
+            $lims_area_all = Area::where('is_active',true)->get();
+            // echo "<pre>";
+            // print_r($lims_customer_group_all);
+            // exit();
+            return view('backend.customer.create', compact('lims_area_all'));
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
