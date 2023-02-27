@@ -96,9 +96,6 @@ class CustomerController extends Controller
         if($role->hasPermissionTo('customers-add')){
             // $lims_customer_group_all = CustomerGroup::where('is_active',true)->get();
             $lims_area_all = Area::where('is_active',true)->get();
-            // echo "<pre>";
-            // print_r($lims_customer_group_all);
-            // exit();
             return view('backend.customer.create', compact('lims_area_all'));
         }
         else
@@ -152,6 +149,8 @@ class CustomerController extends Controller
         }
         $lims_customer_data = $request->all();
         $lims_customer_data['is_active'] = true;
+        // $lims_customer_data['name'] = $lims_customer_data['customer_name']; 
+        $lims_customer_data['type'] = 2;
         $message = 'Customer';
         if(isset($request->user)) {
             $lims_customer_data['phone'] = $lims_customer_data['phone_number'];
@@ -162,7 +161,6 @@ class CustomerController extends Controller
             $lims_customer_data['user_id'] = $user->id;
             $message .= ', User';
         }
-        $lims_customer_data['name'] = $lims_customer_data['customer_name'];
         if(isset($request->both)) {
             Supplier::create($lims_customer_data);
             $message .= ' and Supplier';
@@ -178,11 +176,14 @@ class CustomerController extends Controller
             }   
         }
         else
-            $message .= ' created successfully!';
-
+        $message .= ' created successfully!';
+        
+        // echo "<pre>";
+        // print_r($lims_customer_data);
+        // exit();
         Customer::create($lims_customer_data);
         if($lims_customer_data['pos'])
-            return redirect('pos')->with('message', $message);
+        return redirect('pos')->with('message', $message);
         else
             return redirect('customer')->with('create_message', $message);
     }
