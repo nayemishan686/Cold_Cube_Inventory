@@ -13,14 +13,14 @@ use App\Payment;
 use App\CashRegister;
 use App\Account;
 use App\Area;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use DB;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Mail\CustomerCreate;
 use App\Mail\CustomerDeposit;
-use Mail;
 
 class CustomerController extends Controller
 {
@@ -149,7 +149,6 @@ class CustomerController extends Controller
         }
         $lims_customer_data = $request->all();
         $lims_customer_data['is_active'] = true;
-        // $lims_customer_data['name'] = $lims_customer_data['customer_name']; 
         $lims_customer_data['type'] = 2;
         $message = 'Customer';
         if(isset($request->user)) {
@@ -161,6 +160,7 @@ class CustomerController extends Controller
             $lims_customer_data['user_id'] = $user->id;
             $message .= ', User';
         }
+        $lims_customer_data['name'] = $lims_customer_data['customer_name'];
         if(isset($request->both)) {
             Supplier::create($lims_customer_data);
             $message .= ' and Supplier';
@@ -176,16 +176,16 @@ class CustomerController extends Controller
             }   
         }
         else
-        $message .= ' created successfully!';
-        
-        // echo "<pre>";
-        // print_r($lims_customer_data);
-        // exit();
+            $message .= ' created successfully!';
+
         Customer::create($lims_customer_data);
-        if($lims_customer_data['pos'])
-        return redirect('pos')->with('message', $message);
-        else
-            return redirect('customer')->with('create_message', $message);
+        if($lims_customer_data['pos']){
+            return redirect('pos')->with('message', $message);
+        }
+        else{
+            // return redirect('customer')->with('create_message', $message);
+            return redirect('customer')->with('message', 'Customer inserted successfully');
+        }
     }
 
     public function edit($id)
