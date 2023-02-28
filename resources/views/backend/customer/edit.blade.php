@@ -16,11 +16,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="hidden" name="customer_group" value="{{$lims_customer_data->customer_group_id}}">
-                                    <label>{{trans('file.Customer Group')}} *</strong> </label>
-                                    <select required class="form-control selectpicker" name="customer_group_id">
-                                        @foreach($lims_customer_group_all as $customer_group)
-                                            <option value="{{$customer_group->id}}">{{$customer_group->name}}</option>
+                                    <input type="hidden" name="customer_area" value="{{$lims_customer_data->area_id}}">
+                                    <label>{{trans('file.Select Area')}} *</strong> </label>
+                                    <select required class="form-control selectpicker" id="area-id" name="area_id">
+                                        <option value="" disabled selected>Select Area</option>
+                                        @foreach($lims_area_all as $area)
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -84,14 +85,14 @@
                                     <input type="text" name="postal_code" value="{{$lims_customer_data->postal_code}}" class="form-control">
                                 </div>
                             </div>
-                            @if(!$lims_customer_data->user_id)
+                            {{-- @if(!$lims_customer_data->user_id)
                             <div class="col-md-6 mt-3">
                                 <div class="form-group">
                                     <label>{{trans('file.Add User')}}</label>&nbsp;
                                     <input type="checkbox" name="user" value="1" />
                                 </div>
                             </div>
-                            @endif
+                            @endif --}}
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{trans('file.Country')}}</label>
@@ -153,7 +154,7 @@
         }
     });
 
-    var customer_group = $("input[name='customer_group']").val();
-    $('select[name=customer_group_id]').val(customer_group);
+    var customer_area = $("input[name='customer_area']").val();
+    $('select[name=area_id]').val(customer_area);
 </script>
 @endpush

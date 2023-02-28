@@ -183,8 +183,7 @@ class CustomerController extends Controller
             return redirect('pos')->with('message', $message);
         }
         else{
-            // return redirect('customer')->with('create_message', $message);
-            return redirect('customer')->with('message', 'Customer inserted successfully');
+            return redirect('customer')->with('create_message', $message);
         }
     }
 
