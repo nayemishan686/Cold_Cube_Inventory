@@ -24,6 +24,7 @@
                                 <div class="form-group">
                                     <label>{{trans('file.Select Area')}} *</strong> </label>
                                     <select required class="form-control selectpicker" id="area-id" name="area_id">
+                                        <option value="" disabled selected>Select Area</option>
                                         @foreach($lims_area_all as $area)
                                             <option value="{{$area->id}}">{{$area->name}}</option>
                                         @endforeach

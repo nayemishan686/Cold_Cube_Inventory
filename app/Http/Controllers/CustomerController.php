@@ -29,14 +29,11 @@ class CustomerController extends Controller
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('customers-index')){
             $permissions = Role::findByName($role->name)->permissions;
-            // echo "<pre>";
-            // print_r($permissions);
-            // exit();
             foreach ($permissions as $permission)
                 $all_permission[] = $permission->name;
             if(empty($all_permission))
                 $all_permission[] = 'dummy text';
-            $lims_customer_all = Customer::with('customerGroup')->where('is_active', true)->get();
+            $lims_customer_all = Customer::with('area')->where('is_active', true)->get();
             return view('backend.customer.index', compact('lims_customer_all', 'all_permission'));
         }
         else
@@ -196,8 +193,11 @@ class CustomerController extends Controller
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('customers-edit')){
             $lims_customer_data = Customer::find($id);
-            $lims_customer_group_all = CustomerGroup::where('is_active',true)->get();
-            return view('backend.customer.edit', compact('lims_customer_data','lims_customer_group_all'));
+            $lims_area_all = Area::where('is_active',true)->get();
+            // echo "<pre>";
+            // print_r($lims_customer_group_all);
+            // exit();
+            return view('backend.customer.edit', compact('lims_customer_data','lims_area_all'));
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');

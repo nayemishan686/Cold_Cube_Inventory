@@ -26,4 +26,9 @@ class Customer extends Model
     {
         return $this->belongsToMany('App\DiscountPlan', 'discount_plan_customers');
     }
+
+    public function area()
+    {
+    	return $this->belongsTo('App\Area');
+    }
 }
