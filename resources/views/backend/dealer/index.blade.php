@@ -24,9 +24,9 @@
         <div class="container-fluid">
             @if (in_array('customers-add', $all_permission))
                 <a href="{{ route('dealer.create') }}" class="btn btn-info"><i class="dripicons-plus"></i>
-                    {{ trans('file.Add Customer') }}</a>&nbsp;
-                <a href="#" data-toggle="modal" data-target="#importCustomer" class="btn btn-primary"><i
-                        class="dripicons-copy"></i> {{ trans('file.Import Customer') }}</a>
+                    {{ trans('file.Add Dealer') }}</a>&nbsp;
+                <a href="#" data-toggle="modal" data-target="#importDealer" class="btn btn-primary"><i
+                        class="dripicons-copy"></i> {{ trans('file.Import Dealer') }}</a>
             @endif
         </div>
         <div class="table-responsive">
@@ -36,48 +36,48 @@
                         <th class="not-exported"></th>
                         <th>{{ trans('file.name') }}</th>
                         <th>{{ trans('file.Area') }}</th>
-                        <th>{{ trans('file.Customer Details') }}</th>
+                        <th>{{ trans('file.Dealer Details') }}</th>
                         <th>{{ trans('file.Discount Plan') }}</th>
                         <th>{{ trans('file.Total Due') }}</th>
                         <th class="not-exported">{{ trans('file.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($lims_customer_all as $key => $customer)
+                    @foreach ($lims_dealer_all as $key => $dealer)
                         <?php
                         $returned_amount = DB::table('sales')
                             ->join('returns', 'sales.id', '=', 'returns.sale_id')
-                            ->where([['sales.customer_id', $customer->id], ['sales.payment_status', '!=', 4]])
+                            ->where([['sales.customer_id', $dealer->id], ['sales.payment_status', '!=', 4]])
                             ->sum('returns.grand_total');
                         $saleData = DB::table('sales')
-                            ->where([['customer_id', $customer->id], ['payment_status', '!=', 4]])
+                            ->where([['customer_id', $dealer->id], ['payment_status', '!=', 4]])
                             ->selectRaw('SUM(grand_total) as grand_total,SUM(paid_amount) as paid_amount')
                             ->first();
                         ?>
-                        <tr data-id="{{ $customer->id }}">
+                        <tr data-id="{{ $dealer->id }}">
                             <td>{{ $key }}</td>
                             <td>
-                                    {{ $customer->name }}
+                                    {{ $dealer->name }}
                             </td>
                             <td>
-                                @if (isset($customer->area->name))
-                                    {{ $customer->area->name }}
-                                @endif
-                            </td>
-                            <td>
-                                @if ($customer->company_name)
-                                    <br>{{ $customer->company_name }}
-                                @endif
-                                @if ($customer->email)
-                                    <br>{{ $customer->email }}
-                                @endif
-                                <br>{{ $customer->phone_number }}
-                                <br>{{ $customer->address }}, {{ $customer->city }}@if ($customer->country)
-                                    {{ ',' . $customer->country }}
+                                @if (isset($dealer->area->name))
+                                    {{ $dealer->area->name }}
                                 @endif
                             </td>
                             <td>
-                                @foreach ($customer->discountPlans as $index => $discount_plan)
+                                @if ($dealer->company_name)
+                                    <br>{{ $dealer->company_name }}
+                                @endif
+                                @if ($dealer->email)
+                                    <br>{{ $dealer->email }}
+                                @endif
+                                <br>{{ $dealer->phone_number }}
+                                <br>{{ $dealer->address }}, {{ $dealer->city }}@if ($dealer->country)
+                                    {{ ',' . $dealer->country }}
+                                @endif
+                            </td>
+                            <td>
+                                @foreach ($dealer->discountPlans as $index => $discount_plan)
                                     @if ($index)
                                         {{ ', ' . $discount_plan->name }}
                                     @else
@@ -99,7 +99,7 @@
                                         user="menu">
                                         @if (in_array('customers-edit', $all_permission))
                                             <li>
-                                                <a href="{{ route('customer.edit', $customer->id) }}"
+                                                <a href="{{ route('dealer.edit', $dealer->id) }}"
                                                     class="btn btn-link"><i class="dripicons-document-edit"></i>
                                                     {{ trans('file.edit') }}</a>
                                             </li>
@@ -110,32 +110,32 @@
                                                 <input type="hidden" name="start_date"
                                                     value="{{ date('Y-m-d', strtotime('-30 year')) }}" />
                                                 <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                                                <input type="hidden" name="customer_id" value="{{ $customer->id }}" />
+                                                <input type="hidden" name="customer_id" value="{{ $dealer->id }}" />
                                                 <button type="submit" class="btn btn-link"><i class="dripicons-pulse"></i>
                                                     {{ trans('file.Due Report') }}</button>
                                                 {!! Form::close() !!}
                                             </li>
                                         @endif
                                         <li>
-                                            <button type="button" data-id="{{ $customer->id }}"
+                                            <button type="button" data-id="{{ $dealer->id }}"
                                                 class="clear-due btn btn-link" data-toggle="modal"
                                                 data-target="#clearDueModal"><i class="dripicons-brush"></i>
                                                 {{ trans('file.Clear Due') }}</button>
                                         </li>
                                         {{-- <li>
-                                            <button type="button" data-id="{{ $customer->id }}"
+                                            <button type="button" data-id="{{ $dealer->id }}"
                                                 class="deposit btn btn-link" data-toggle="modal"
                                                 data-target="#depositModal"><i class="dripicons-plus"></i>
                                                 {{ trans('file.Add Deposit') }}</button>
                                         </li> --}}
                                         {{-- <li>
-                                            <button type="button" data-id="{{ $customer->id }}"
+                                            <button type="button" data-id="{{ $dealer->id }}"
                                                 class="getDeposit btn btn-link"><i class="fa fa-money"></i>
                                                 {{ trans('file.View Deposit') }}</button>
                                         </li> --}}
                                         <li class="divider"></li>
                                         @if (in_array('customers-delete', $all_permission))
-                                            {{ Form::open(['route' => ['customer.destroy', $customer->id], 'method' => 'DELETE']) }}
+                                            {{ Form::open(['route' => ['customer.destroy', $dealer->id], 'method' => 'DELETE']) }}
                                             <li>
                                                 <button type="submit" class="btn btn-link"
                                                     onclick="return confirmDelete()"><i class="dripicons-trash"></i>
@@ -153,7 +153,7 @@
         </div>
     </section>
 
-    <div id="importCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    <div id="importDealer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
         class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">

@@ -38,8 +38,8 @@ class DealerController extends Controller
                 $all_permission[] = $permission->name;
             if(empty($all_permission))
                 $all_permission[] = 'dummy text';
-            $lims_customer_all = Customer::with('area')->where('is_active', true)->get();
-            return view('backend.dealer.index', compact('lims_customer_all', 'all_permission'));
+            $lims_dealer_all = Customer::with('area')->where('is_active', true)->get();
+            return view('backend.dealer.index', compact('lims_dealer_all', 'all_permission'));
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
