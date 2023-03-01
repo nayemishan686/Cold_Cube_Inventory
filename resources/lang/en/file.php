@@ -692,5 +692,7 @@ return [
 	"Number of Customer" => "Number of Customer",
 	"Update Area" => "Update Area",
 	"Select Area" => "Select Area",
+	"Add Dealer" => "Add Dealer",
+	"Import Dealer" => "Import Dealer",
 ];
 ?>

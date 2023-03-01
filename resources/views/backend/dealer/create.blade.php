@@ -8,11 +8,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
-                        <h4>{{trans('file.Add Customer')}}</h4>
+                        <h4>{{trans('file.Add Dealer')}}</h4>
                     </div>
                     <div class="card-body">
                         <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
-                        {!! Form::open(['route' => 'customer.store', 'method' => 'post', 'files' => true]) !!}
+                        {!! Form::open(['route' => 'dealer.store', 'method' => 'post', 'files' => true]) !!}
                         <div class="row">
                             {{-- <div class="col-md-4 mt-4">
                                 <div class="form-group">
@@ -20,7 +20,7 @@
                                     <label>{{trans('file.Both Customer and Supplier')}}</label>
                                 </div>
                             </div> --}}
-                            <input type="hidden" name="type" value="2">
+                            <input type="hidden" name="type" value="1">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>{{trans('file.Select Area')}} *</strong> </label>
@@ -35,7 +35,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>{{trans('file.name')}} *</strong> </label>
-                                    <input type="text" id="name" name="customer_name" required class="form-control">
+                                    <input type="text" id="name" name="dealer_name" required class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -107,29 +107,6 @@
                                     <input type="text" name="country" class="form-control">
                                 </div>
                             </div>
-                            {{-- <div class="col-md-4 mt-4">
-                                <div class="form-group">
-                                    <input type="checkbox" name="user" value="1" />&nbsp;
-                                    <label>{{trans('file.Add User')}}</label>
-                                </div>
-                            </div> --}}
-                            <div class="col-md-4 user-input">
-                                <div class="form-group">
-                                    <label>{{trans('file.UserName')}} *</label>
-                                    <input type="text" name="name" class="form-control">
-                                    @if($errors->has('name'))
-                                   <span>
-                                       <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-4 user-input">
-                                <div class="form-group">
-                                    <label>{{trans('file.Password')}} *</label>
-                                    <input type="password" name="password" class="form-control">
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group">
                             <input type="hidden" name="pos" value="0">
@@ -168,17 +145,5 @@
         }
     });
 
-    $('input[name="user"]').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('.user-input').show(300);
-            $('input[name="name"]').prop('required',true);
-            $('input[name="password"]').prop('required',true);
-        }
-        else{
-            $('.user-input').hide(300);
-            $('input[name="name"]').prop('required',false);
-            $('input[name="password"]').prop('required',false);
-        }
-    });
 </script>
 @endpush

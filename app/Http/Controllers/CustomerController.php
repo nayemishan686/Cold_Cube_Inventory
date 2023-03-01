@@ -149,7 +149,6 @@ class CustomerController extends Controller
         }
         $lims_customer_data = $request->all();
         $lims_customer_data['is_active'] = true;
-        $lims_customer_data['type'] = 2;
         $message = 'Customer';
         if(isset($request->user)) {
             $lims_customer_data['phone'] = $lims_customer_data['phone_number'];

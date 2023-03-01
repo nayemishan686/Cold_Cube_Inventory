@@ -105,6 +105,9 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::post('customers/clear-due', 'CustomerController@clearDue')->name('customer.clearDue');
 	Route::resource('customer', 'CustomerController');
 
+	// Dealer Route
+	Route::resource('dealer', 'DealerController');
+
 	Route::post('importbiller', 'BillerController@importBiller')->name('biller.import');
 	Route::post('biller/deletebyselection', 'BillerController@deleteBySelection');
 	Route::get('biller/lims_biller_search', 'BillerController@limsBillerSearch')->name('biller.search');
