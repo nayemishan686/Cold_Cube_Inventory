@@ -230,4 +230,126 @@ class DealerController extends Controller
         $lims_customer_data->save();
         return redirect('customer')->with('not_permitted','Data deleted Successfully');
     }
+
+
+    public function importDealer(Request $request)
+    {
+        $role = Role::find(Auth::user()->role_id);
+        if($role->hasPermissionTo('customers-add')){
+            $upload=$request->file('file');
+            $ext = pathinfo($upload->getClientOriginalName(), PATHINFO_EXTENSION);
+            if($ext != 'csv')
+                return redirect()->back()->with('not_permitted', 'Please upload a CSV file');
+            $filename =  $upload->getClientOriginalName();
+            $filePath=$upload->getRealPath();
+            //open and read
+            $file=fopen($filePath, 'r');
+            $header= fgetcsv($file);
+            $escapedHeader=[];
+            //validate
+            foreach ($header as $key => $value) {
+                $lheader=strtolower($value);
+                $escapedItem=preg_replace('/[^a-z]/', '', $lheader);
+                array_push($escapedHeader, $escapedItem);
+            }
+            //looping through othe columns
+            while($columns=fgetcsv($file))
+            {
+                if($columns[0]=="")
+                    continue;
+                foreach ($columns as $key => $value) {
+                    $value=preg_replace('/\D/','',$value);
+                }
+               $data= array_combine($escapedHeader, $columns);
+               $lims_customer_group_data = CustomerGroup::where('name', $data['customergroup'])->first();
+               $customer = Customer::firstOrNew(['name'=>$data['name']]);
+               $customer->customer_group_id = $lims_customer_group_data->id;
+               $customer->name = $data['name'];
+               $customer->company_name = $data['companyname'];
+               $customer->email = $data['email'];
+               $customer->phone_number = $data['phonenumber'];
+               $customer->address = $data['address'];
+               $customer->city = $data['city'];
+               $customer->state = $data['state'];
+               $customer->postal_code = $data['postalcode'];
+               $customer->country = $data['country'];
+               $customer->is_active = true;
+               $customer->save();
+               $message = 'Customer Imported Successfully';
+               if($data['email']){
+                    try {
+                        Mail::to($data['email'])->send(new CustomerCreate($data));
+                    }
+                    catch(\Exception $e){
+                        $message = 'Customer imported successfully. Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
+                    }
+                }
+            }
+            return redirect('dealer')->with('import_message', $message);
+        }
+        else
+            return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
+    }
+
+
+    public function clearDue(Request $request)
+    {
+        $lims_due_sale_data = Sale::select('id', 'warehouse_id', 'grand_total', 'paid_amount', 'payment_status')
+                            ->where([
+                                ['payment_status', '!=', 4],
+                                ['customer_id', $request->customer_id]
+                            ])->get();
+        $total_paid_amount = $request->amount;
+        foreach ($lims_due_sale_data as $key => $sale_data) {
+            if($total_paid_amount == 0)
+                break;
+            $due_amount = $sale_data->grand_total - $sale_data->paid_amount;
+            $lims_cash_register_data =  CashRegister::select('id')
+                                        ->where([
+                                            ['user_id', Auth::id()],
+                                            ['warehouse_id', $sale_data->warehouse_id],
+                                            ['status', 1]
+                                        ])->first();
+            if($lims_cash_register_data)
+                $cash_register_id = $lims_cash_register_data->id;
+            else
+                $cash_register_id = null;
+            $account_data = Account::select('id')->where('is_default', 1)->first();
+            if($total_paid_amount >= $due_amount) {
+                $paid_amount = $due_amount;
+                $payment_status = 4;
+            }
+            else {
+                $paid_amount = $total_paid_amount;
+                $payment_status = 2;
+            }
+            Payment::create([
+                'payment_reference' => 'spr-'.date("Ymd").'-'.date("his"),
+                'sale_id' => $sale_data->id,
+                'user_id' => Auth::id(),
+                'cash_register_id' => $cash_register_id,
+                'account_id' => $account_data->id,
+                'amount' => $paid_amount,
+                'change' => 0,
+                'paying_method' => 'Cash',
+                'payment_note' => $request->note
+            ]);
+            $sale_data->paid_amount += $paid_amount;
+            $sale_data->payment_status = $payment_status;
+            $sale_data->save();
+            $total_paid_amount -= $paid_amount;
+        }
+        return redirect()->back()->with('message', 'Due cleared successfully');
+    }
+
+    public function deleteBySelection(Request $request)
+    {
+        $customer_id = $request['customerIdArray'];
+        foreach ($customer_id as $id) {
+            $lims_customer_data = Customer::find($id);
+            $lims_customer_data->is_active = false;
+            $lims_customer_data->save();
+        }
+        return 'Customer deleted successfully!';
+    }
 }

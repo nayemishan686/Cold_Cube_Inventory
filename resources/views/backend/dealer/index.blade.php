@@ -157,7 +157,7 @@
         class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['route' => 'customer.import', 'method' => 'post', 'files' => true]) !!}
+                {!! Form::open(['route' => 'dealer.import', 'method' => 'post', 'files' => true]) !!}
                 <div class="modal-header">
                     <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Import Customer') }}</h5>
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
@@ -196,7 +196,7 @@
         class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['route' => 'customer.clearDue', 'method' => 'post']) !!}
+                {!! Form::open(['route' => 'dealer.clearDue', 'method' => 'post']) !!}
                 <div class="modal-header">
                     <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Clear Due') }}</h5>
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
