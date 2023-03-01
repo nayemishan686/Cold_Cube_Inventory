@@ -150,12 +150,12 @@ class DealerController extends Controller
     {
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('customers-edit')){
-            $lims_customer_data = Customer::find($id);
+            $lims_dealer_data = Customer::find($id);
             $lims_area_all = Area::where('is_active',true)->get();
             // echo "<pre>";
             // print_r($lims_customer_group_all);
             // exit();
-            return view('backend.customer.edit', compact('lims_customer_data','lims_area_all'));
+            return view('backend.dealer.edit', compact('lims_dealer_data','lims_area_all'));
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
@@ -209,12 +209,12 @@ class DealerController extends Controller
             $message = 'Customer updated and user created successfully';
         }
         else {
-            $message = 'Customer updated successfully';
+            $message = 'Dealer updated successfully';
         }
         
         $input['name'] = $input['customer_name'];
         $lims_customer_data->update($input);
-        return redirect('customer')->with('edit_message', $message);
+        return redirect('dealer')->with('edit_message', $message);
     }
 
     /**

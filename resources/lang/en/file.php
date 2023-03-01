@@ -695,5 +695,6 @@ return [
 	"Add Dealer" => "Add Dealer",
 	"Import Dealer" => "Import Dealer",
 	"Dealer Details" => "Dealer Details",
+	"Update Dealer" => "Update Dealer",
 ];
 ?>
