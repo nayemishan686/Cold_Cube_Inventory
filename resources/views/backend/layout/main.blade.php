@@ -534,7 +534,7 @@
 
                 {{-- WareHouse Work --}}
                 @if($user_index_permission_active)
-                <li id="Area-list-menu"><a href="{{route('area.index')}}">{{trans('file.Area List')}}</a></li>
+                <li id="area-list-menu"><a href="{{route('area.index')}}">{{trans('file.Area List')}}</a></li>
                 <?php
                     $user_add_permission_active = DB::table('permissions')
                         ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
