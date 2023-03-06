@@ -127,7 +127,7 @@
 <script type="text/javascript">
     $("ul#people").siblings('a').attr('aria-expanded','true');
     $("ul#people").addClass("show");
-    $("ul#people #customer-create-menu").addClass("active");
+    $("ul#people #dealer-create-menu").addClass("active");
 
     $('.asterisk').hide();
     $(".user-input").hide();

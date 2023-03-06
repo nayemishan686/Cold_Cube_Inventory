@@ -561,6 +561,21 @@
                 @endif
 
                 @if($customer_index_permission_active)
+                <li id="dealer-list-menu"><a href="{{route('dealer.index')}}">{{trans('file.Dealer List')}}</a></li>
+                <?php
+                    $customer_add_permission_active = DB::table('permissions')
+                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                        ->where([
+                            ['permissions.name', 'customers-add'],
+                            ['role_id', $role->id] 
+                        ])->first();
+                ?>
+                @if($customer_add_permission_active)
+                <li id="dealer-create-menu"><a href="{{route('dealer.create')}}">{{trans('file.Add Dealer')}}</a></li>
+                @endif
+                @endif
+
+                @if($customer_index_permission_active)
                 <li id="customer-list-menu"><a href="{{route('customer.index')}}">{{trans('file.Customer List')}}</a></li>
                 <?php
                     $customer_add_permission_active = DB::table('permissions')

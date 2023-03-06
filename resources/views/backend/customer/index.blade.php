@@ -153,7 +153,7 @@
         </div>
     </section>
 
-    <div id="importCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    {{-- <div id="importCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
         class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">
@@ -190,7 +190,7 @@
                 {!! Form::close() !!}
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div id="clearDueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
         class="modal fade text-left">
